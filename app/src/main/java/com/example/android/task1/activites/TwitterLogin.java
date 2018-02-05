@@ -1,11 +1,12 @@
-package com.example.android.task1;
+package com.example.android.task1.activites;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Toast;
 
+import com.example.android.task1.R;
+import com.example.android.task1.managers.LoginManager;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Result;
@@ -19,6 +20,7 @@ import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 public class TwitterLogin extends AppCompatActivity {
 
     TwitterLoginButton loginButton;
+    LoginManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +35,29 @@ public class TwitterLogin extends AppCompatActivity {
         Twitter.initialize(config);
         setContentView(R.layout.activity_twitter_login);
 
+        // instantiated LoginManager class to provide access for it's methods
+        manager = new LoginManager(getApplicationContext());
+
         loginButton = findViewById(R.id.login_button);
         loginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
                 // Do something with result, which provides a TwitterSession for making API calls
                 TwitterSession session = result.data;
-                String username = session.getUserName();
-                long userid = session.getUserId();
-                Toast.makeText(getApplication(), username, Toast.LENGTH_LONG).show();
+                //create user session
+                manager.createSessionForUSer(session.getUserName(), session.getUserId());
+
+                // Start UserFollowersActivity
+                Intent intent = new Intent(getApplicationContext(), UserFollowersActivity.class);
+
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                startActivity(intent);
+
+                finish();
+
             }
 
             @Override

@@ -1,8 +1,11 @@
-package com.example.android.task1;
+package com.example.android.task1.activites;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
+
+import com.example.android.task1.R;
+import com.example.android.task1.managers.LoginManager;
 
 public class UserFollowersActivity extends AppCompatActivity {
 

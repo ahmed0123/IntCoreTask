@@ -1,8 +1,10 @@
-package com.example.android.task1;
+package com.example.android.task1.managers;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
+import com.example.android.task1.activites.TwitterLogin;
 
 /**
  * Created by world on 2018/02/04.
