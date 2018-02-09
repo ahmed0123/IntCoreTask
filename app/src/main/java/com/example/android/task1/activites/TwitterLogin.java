@@ -6,49 +6,36 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.example.android.task1.R;
-import com.example.android.task1.managers.LoginManager;
+import com.example.android.task1.utils.LoginManager;
 import com.twitter.sdk.android.core.Callback;
-import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Result;
-import com.twitter.sdk.android.core.Twitter;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterConfig;
+import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 public class TwitterLogin extends AppCompatActivity {
 
+    // Button for authenticate user
     TwitterLoginButton loginButton;
-    LoginManager manager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TwitterConfig config = new TwitterConfig.Builder(this)
-                .logger(new DefaultLogger(Log.DEBUG))
-                .twitterAuthConfig(new TwitterAuthConfig(
-                        getString(R.string.com_twitter_sdk_android_CONSUMER_KEY),
-                        getString(R.string.com_twitter_sdk_android_CONSUMER_SECRET)))
-                .debug(true)
-                .build();
-        Twitter.initialize(config);
         setContentView(R.layout.activity_twitter_login);
-
-        // instantiated LoginManager class to provide access for it's methods
-        manager = new LoginManager(getApplicationContext());
 
         loginButton = findViewById(R.id.login_button);
         loginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
-                // Do something with result, which provides a TwitterSession for making API calls
-                TwitterSession session = result.data;
-                //create user session
-                manager.createSessionForUSer(session.getUserName(), session.getUserId());
 
-                // Start UserFollowersActivity
-                Intent intent = new Intent(getApplicationContext(), UserFollowersActivity.class);
+                TwitterSession session = result.data;
+                // set the session
+                TwitterCore.getInstance().getSessionManager().setSession(session.getId(), session);
+                // save user session id in shared preferences to manage session and to use id later for retrieving session
+                LoginManager.setSessionId(getApplicationContext(), session.getId());
+
+                // Start FollowerActivity
+                Intent intent = new Intent(getApplicationContext(), FolowerActivity.class);
 
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
