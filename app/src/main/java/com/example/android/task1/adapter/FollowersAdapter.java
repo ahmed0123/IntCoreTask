@@ -1,6 +1,7 @@
 package com.example.android.task1.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.task1.R;
+import com.example.android.task1.activites.ScrollingActivity;
 import com.example.android.task1.model.User;
 import com.squareup.picasso.Picasso;
 
@@ -111,12 +113,12 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.Foll
 
             if (postion != RecyclerView.NO_POSITION) {
 
-               /* User user = userArrayList.get(postion);
+                User user = userArrayList.get(postion);
                 Intent intent = new Intent(context, ScrollingActivity.class);
 
                 intent.putExtra("Follower",user);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);*/
+                context.startActivity(intent);
             }
 
         }

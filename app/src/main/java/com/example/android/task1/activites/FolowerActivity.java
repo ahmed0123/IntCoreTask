@@ -13,6 +13,7 @@ import android.os.Environment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -99,6 +100,9 @@ public class FolowerActivity extends AppCompatActivity implements SwipeRefreshLa
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(this, linearLayoutManager.getOrientation());
+
+
         if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
 
             recyclerView.setLayoutManager(mLayoutManager);
@@ -107,6 +111,8 @@ public class FolowerActivity extends AppCompatActivity implements SwipeRefreshLa
             recyclerView.setLayoutManager(linearLayoutManager);
 
         }
+        recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         adapter = new FollowersAdapter(getApplicationContext(), userArrayList);
