@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.task1.R;
-import com.example.android.task1.activites.ScrollingActivity;
+import com.example.android.task1.activites.ProfileActivity;
 import com.example.android.task1.model.User;
 import com.squareup.picasso.Picasso;
 
@@ -114,7 +114,7 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.Foll
             if (postion != RecyclerView.NO_POSITION) {
 
                 User user = userArrayList.get(postion);
-                Intent intent = new Intent(context, ScrollingActivity.class);
+                Intent intent = new Intent(context, ProfileActivity.class);
 
                 intent.putExtra("Follower",user);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

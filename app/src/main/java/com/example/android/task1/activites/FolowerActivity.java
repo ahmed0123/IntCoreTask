@@ -19,6 +19,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.example.android.task1.R;
@@ -74,6 +75,7 @@ public class FolowerActivity extends AppCompatActivity implements SwipeRefreshLa
     private List<User> userArrayList;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private CoordinatorLayout coordinatorLayout;
+    private Toolbar toolbar;
     private FollowersAdapter adapter;
 
     @Override
@@ -93,6 +95,10 @@ public class FolowerActivity extends AppCompatActivity implements SwipeRefreshLa
         }
 
         session = TwitterCore.getInstance().getSessionManager().getSession(sessionId);
+
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.follower_activity);
 
         coordinatorLayout = findViewById(R.id.coordinator);
 

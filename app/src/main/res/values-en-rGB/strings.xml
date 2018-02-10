@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Task1</string>
+    <string name="login_activity">Login </string>
     <string name="no_followers_mess_erro">No followers </string>
+    <string name="follower_activity">Followers</string>
+    <string name="profile_activity">Profile</string>
 </resources>

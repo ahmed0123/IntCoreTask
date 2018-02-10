@@ -3,6 +3,7 @@ package com.example.android.task1.activites;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.example.android.task1.R;
@@ -18,12 +19,18 @@ public class TwitterLogin extends AppCompatActivity {
 
     // Button for authenticate user
     TwitterLoginButton loginButton;
+    private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twitter_login);
 
         loginButton = findViewById(R.id.login_button);
+
+        toolbar = findViewById(R.id.login_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.login_activity);
         loginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {

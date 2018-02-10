@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Task1</string>
-    <string name="no_followers_mess_erro">عذرا لا يوجد متابعين</string>
+    <string name="login_activity"> تسجيل الدخول </string>
+    <string name="no_followers_mess_erro">عذرا, لا يوجد متابعين ..</string>
+    <string name="follower_activity">المتابعين</string>
+    <string name="profile_activity">الصفحة الشخـصية</string>
+
 </resources>

@@ -17,20 +17,21 @@ import com.twitter.sdk.android.tweetui.UserTimeline;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ScrollingActivity extends AppCompatActivity implements View.OnClickListener {
+public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
     CircleImageView profileImage;
-    ImageView backGroundImage;
+    ImageView backGroundImage, backButton;
     // serialized object
     User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scrolling);
+        setContentView(R.layout.activity_profile);
 
         profileImage = findViewById(R.id.profile_image);
         backGroundImage = findViewById(R.id.back_ground_image);
+        backButton = findViewById(R.id.back_button);
 
         Intent followeAdapterIntent = getIntent();
 
@@ -47,6 +48,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
 
         profileImage.setOnClickListener(this);
         backGroundImage.setOnClickListener(this);
+        backButton.setOnClickListener(this);
 
         UserTimeline timeline = new UserTimeline.Builder()
                 .userId(user.getId())
@@ -74,12 +76,17 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
+
             case R.id.profile_image:
                 openImageViewBrowser(user.getProfileImageUrl());
                 break;
+
             case R.id.back_ground_image:
                 openImageViewBrowser(user.getProfileBannerUrl());
                 break;
+
+            case R.id.back_button:
+                onBackPressed();
 
             default:
                 break;
@@ -94,10 +101,13 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
      */
 
     private void setUpImageView(String imagePath, ImageView v, int resTd) {
+
         if (imagePath != null) {
             Picasso.with(getApplicationContext()).load(imagePath).into(v);
-        } else
+        } else {
             v.setImageResource(resTd);
+        }
+
     }
 
     /**
@@ -109,7 +119,6 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
         intent.setData(Uri.parse(imagePath));
         startActivity(intent);
-
 
     }
 }
