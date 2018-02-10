@@ -136,7 +136,7 @@ public class FolowerActivity extends AppCompatActivity implements SwipeRefreshLa
                 } else {
 
                     Snackbar snackbar = Snackbar
-                            .make(coordinatorLayout, "There is no follower yet", Snackbar.LENGTH_LONG);
+                            .make(coordinatorLayout, getString(R.string.no_followers_mess_erro), Snackbar.LENGTH_LONG);
 
                     snackbar.show();
 
