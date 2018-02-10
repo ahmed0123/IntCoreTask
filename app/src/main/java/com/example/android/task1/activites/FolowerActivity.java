@@ -10,6 +10,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -49,7 +51,8 @@ public class FolowerActivity extends AppCompatActivity implements SwipeRefreshLa
     private static OkHttpClient httpClient;
     // session instance used for authentication thought requests
     TwitterSession session;
-    Long sessionId, nextCursor;
+    Long sessionId;
+    Long nextCursor = null;
     Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = new Interceptor() {
         @Override
         public okhttp3.Response intercept(Chain chain) throws IOException {
@@ -70,6 +73,7 @@ public class FolowerActivity extends AppCompatActivity implements SwipeRefreshLa
     private RecyclerView recyclerView;
     private List<User> userArrayList;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private CoordinatorLayout coordinatorLayout;
     private FollowersAdapter adapter;
 
     @Override
@@ -89,6 +93,8 @@ public class FolowerActivity extends AppCompatActivity implements SwipeRefreshLa
         }
 
         session = TwitterCore.getInstance().getSessionManager().getSession(sessionId);
+
+        coordinatorLayout = findViewById(R.id.coordinator);
 
         mSwipeRefreshLayout = findViewById(R.id.swipeRefresh);
 
@@ -123,6 +129,18 @@ public class FolowerActivity extends AppCompatActivity implements SwipeRefreshLa
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 getFolloweList(nextCursor, session);
+                if (nextCursor != 0L) {
+
+                    getFolloweList(nextCursor, session);
+
+                } else {
+
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, "There is no follower yet", Snackbar.LENGTH_LONG);
+
+                    snackbar.show();
+
+                }
             }
         });
 
@@ -133,7 +151,7 @@ public class FolowerActivity extends AppCompatActivity implements SwipeRefreshLa
 
         getCustomizedCleint();
 
-        Call<Followers> conn = new MyTwitterClient(session, httpClient).getTwitterService().followerList(null);
+        Call<Followers> conn = new MyTwitterClient(session, httpClient).getTwitterService().followerList(cursor);
         conn.enqueue(new retrofit2.Callback<Followers>() {
             @Override
             public void onResponse(Call<Followers> call, Response<Followers> response) {
@@ -141,6 +159,8 @@ public class FolowerActivity extends AppCompatActivity implements SwipeRefreshLa
                 userArrayList.addAll(response.body().getUsers());
                 adapter.notifyItemRangeInserted(adapter.getItemCount(), userArrayList.size() - 1);
                 mSwipeRefreshLayout.setRefreshing(false);
+                // getting the value og the next cursor coming from response
+                nextCursor = response.body().getNextCursor();
 
             }
 
